@@ -19,7 +19,7 @@
     </head>
     <body>
         @include('components.header')
-        <main class="container mx-auto px-5 flex flex-grow">
+        <main class="container mx-auto px-5 flex flex-col flex-grow">
             @yield('content')
         </main>
         @include('components.footer')

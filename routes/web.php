@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Blog\ShowController;
 
-Route::get('/', function () {
-    return view('blog');
-});
+Route::get('/', ShowController::class)->name('blog');
+
 
 Route::middleware([
     'auth:sanctum',

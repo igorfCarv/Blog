@@ -13,13 +13,13 @@
         <div class="mb-16">
             <h2 class="mt-16 mb-5 text-3xl text-yellow-500 font-bold">Featured Posts</h2>
             <div class="w-full">
-{{--                <div class="grid grid-cols-3 gap-10 w-full">--}}
-{{--                    @foreach ($featuredPosts as $post)--}}
-{{--                        <div class="md:col-span-1 col-span-3">--}}
-{{--                            <x-posts.post-card :post="$post" />--}}
-{{--                        </div>--}}
-{{--                    @endforeach--}}
-{{--                </div>--}}
+                <div class="grid grid-cols-3 gap-10 w-full">
+                    @foreach ($featuredPosts as $post)
+                        <div class="md:col-span-1 col-span-3">
+                            yrdyr
+                        </div>
+                    @endforeach
+                </div>
             </div>
             <a class="mt-10 block text-center text-lg text-yellow-500 font-semibold"
                href="http://127.0.0.1:8000/blog">More
