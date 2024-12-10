@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Post;
 
@@ -14,7 +15,8 @@ class ShowController extends Controller
     public function __invoke(Request $request)
     {
         return view('blog',[
-            'featuredPosts' => Post::take(3)->get(),
+            'featuredPosts' => Post::published()->latest('published_at')->take(3)->get(),
+            'latestPosts' => Post::published()->latest('published_at')->take(9)->get()
         ]);
     }
 }

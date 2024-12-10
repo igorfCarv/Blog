@@ -11,33 +11,31 @@
     </div>
     <div class="mb-10 w-full">
         <div class="mb-16">
-            <h2 class="mt-16 mb-5 text-3xl text-yellow-500 font-bold">Featured Posts</h2>
+            <h2 class="mt-16 mb-5 text-3xl text-yellow-500 font-bold">Postagem em destaque</h2>
             <div class="w-full">
                 <div class="grid grid-cols-3 gap-10 w-full">
                     @foreach ($featuredPosts as $post)
                         <div class="md:col-span-1 col-span-3">
-                            yrdyr
+                            <x-posts.posts-card :post="$post" />
                         </div>
                     @endforeach
                 </div>
             </div>
             <a class="mt-10 block text-center text-lg text-yellow-500 font-semibold"
-               href="http://127.0.0.1:8000/blog">More
-                Posts</a>
+               href="http://127.0.0.1:8000/blog">Veja Mais</a>
         </div>
         <hr>
 
-        <h2 class="mt-16 mb-5 text-3xl text-yellow-500 font-bold">Latest Posts</h2>
+        <h2 class="mt-16 mb-5 text-3xl text-yellow-500 font-bold">Últimas postagens</h2>
         <div class="w-full mb-5">
-{{--            <div class="grid grid-cols-3 gap-10 w-full">--}}
-{{--                @foreach ($latestPosts as $post)--}}
-{{--                    <div class="md:col-span-1 col-span-3">--}}
-{{--                        <x-posts.post-card :post="$post" />--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
-{{--            </div>--}}
+            <div class="grid grid-cols-3 gap-10 w-full">
+                @foreach ($latestPosts as $post)
+                    <div class="md:col-span-1 col-span-3">
+                        <x-posts.posts-card :post="$post" />
+                    </div>
+                @endforeach
+            </div>
         </div>
-        <a class="mt-10 block text-center text-lg text-yellow-500 font-semibold" href="http://127.0.0.1:8000/blog">More
-            Posts</a>
+        <a class="mt-10 block text-center text-lg text-yellow-500 font-semibold" href="http://127.0.0.1:8000/blog">Veja Mais</a>
     </div>
 @endsection
