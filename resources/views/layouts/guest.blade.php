@@ -18,10 +18,12 @@
         @livewireStyles
     </head>
     <body>
-        <div class="font-sans text-gray-900 dark:text-gray-100 antialiased">
-            {{ $slot }}
-        </div>
-
+        @include('components.header')
+        <main class="container mx-auto px-5 flex flex-grow">
+            @yield('content')
+        </main>
+        @include('components.footer')
         @livewireScripts
     </body>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </html>

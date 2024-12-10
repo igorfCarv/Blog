@@ -14,17 +14,13 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="font-light antialiased">
-        @include('components.header')
-        <main class="container mx-auto px-5 flex flex-grow">
-{{--            @yield('content')--}}
-            {{ $slot }}
-        </main>
-        @include('components.footer')
+    <body>
+        <div class="font-sans text-gray-900 dark:text-gray-100 antialiased">
+            @yield('content')
+        </div>
+    @livewireScripts
     </body>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </html>
