@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('content');
             $table->string('image')->nullable();
             $table->timestamp('published_at')->nullable();
-            $table->boolean('published')->default(false);
+            $table->boolean('featured')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

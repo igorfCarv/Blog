@@ -5,9 +5,6 @@
             Bem-vindo ao <span class="text-yellow-500">&lt;BLOG&gt;</span> <span class="text-gray-900"> </span>
         </h1>
         <p class="text-gray-500 text-lg mt-1">Desafio Laravel Dev Web</p>
-        <a class="px-3 py-2 text-lg text-white bg-gray-800 rounded mt-5 inline-block"
-           href="http://127.0.0.1:8000/blog">Start
-            Reading</a>
     </div>
     <div class="mb-10 w-full">
         <div class="mb-16">
