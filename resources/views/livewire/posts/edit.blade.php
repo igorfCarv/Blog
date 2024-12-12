@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="store" enctype="multipart/form-data">
+    <form wire:submit.prevent="update" enctype="multipart/form-data">
         @csrf
 
         <!-- Título -->
@@ -27,9 +27,14 @@
         <div class="mb-4">
             <label for="image" class="block text-sm font-medium text-gray-700">Imagem</label>
             <input type="file" id="image" wire:model="image" class="mt-1 block w-full" />
+            @if ($currentImage)
+                <div class="mt-2">
+                    <img src="{{ Storage::url($currentImage) }}" alt="Imagem atual" class="h-24 w-24 object-cover">
+                </div>
+            @endif
             @if ($image)
                 <div class="mt-2">
-                    <img src="{{ $image->temporaryUrl() }}" alt="Preview" class="h-24 w-24 object-cover">
+                    <img src="{{ $image->temporaryUrl() }}" alt="Preview da nova imagem" class="h-24 w-24 object-cover">
                 </div>
             @endif
             @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -48,11 +53,16 @@
             <label for="featured" class="text-sm font-medium text-gray-700">Destacar post</label>
         </div>
 
-        <!-- Botão de Submissão -->
+        <!-- Botão de Atualizar -->
         <div class="mb-4">
             <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600">
-                Criar Post
+                Atualizar Post
             </button>
+        </div>
+        <div class="flex justify-content-end">
+            <a href="#" class="btn btn-danger"
+               onclick="return confirm('Você tem certeza? Essa ação não poderá ser desfeita') ||  event.stopImmediatePropagation()"
+               wire:click='delete'>Excluir</a>
         </div>
     </form>
 </div>

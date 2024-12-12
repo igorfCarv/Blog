@@ -1,0 +1,34 @@
+<div>
+    <section class="flex flex-col">
+        <h2> Bem-vindo Igor! </h2>
+
+        <div class="flex gap-2">
+            <div class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
+                <h3 class="text-2xl font-semibold mb-2 text-blue-600">Quantidade de Postagens:</h3>
+                <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam justo nec justo lacinia, vel ullamcorper nibh tincidunt.</p>
+                <a href="{{route('posts.create')}}">Criar novo post</a>
+            </div>
+            <div class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-green-600">
+                <h3 class="text-2xl font-semibold mb-2 text-blue-600">Quantidade de Categorias:</h3>
+                <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam justo nec justo lacinia, vel ullamcorper nibh tincidunt.</p>
+                <a href="{{route('posts.create')}}">Criar nova categoria</a>
+            </div>
+        </div>
+
+        <h4>Veja suas últimas postagens:</h4>
+        @if ($posts->isEmpty())
+            <p>Você ainda não criou nenhuma postagem.</p>
+        @else
+            <ul class="space-y-4">
+                @foreach ($posts as $post)
+                    <li class="p-4 border rounded-lg shadow">
+                        <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
+                        <p class="text-gray-600">{{ $post->content }}</p>
+                        <small class="text-gray-500">Publicado em: {{ $post->published_at }}</small>
+                        <a href="{{route('posts.edit',$post->id)}}">Editar Postagem</a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+    </section>
+</div>

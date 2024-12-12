@@ -8,6 +8,10 @@ use Livewire\Component;
 
 class Show extends Component
 {
+    public function mount()
+    {
+        $this->posts = Post::where('user_id', auth()->id())->latest()->get();
+    }
     public function render(): View
     {
         return view('livewire.posts.show',
