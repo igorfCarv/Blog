@@ -17,7 +17,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body>
+    <body class=" bg-emerald-50">
         @include('components.header')
         <main class="container mx-auto px-5 flex flex-col flex-grow">
             @yield('content')

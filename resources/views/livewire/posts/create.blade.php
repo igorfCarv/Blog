@@ -48,6 +48,29 @@
             <label for="featured" class="text-sm font-medium text-gray-700">Destacar post</label>
         </div>
 
+        <!-- Categorias -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Categorias</label>
+            <div class="mt-2 space-y-2">
+                @foreach($categories as $category)
+                    <div class="flex items-center">
+                        <input 
+                            type="checkbox" 
+                            id="category_{{ $category->id }}" 
+                            value="{{ $category->id }}" 
+                            wire:model="categories" 
+                            class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
+                        >
+                        <label for="category_{{ $category->id }}" class="ml-2 text-sm text-gray-700">
+                            {{ $category->title }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+            @error('categories') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+        </div>
+        {{$errors}}
+
         <!-- Botão de Submissão -->
         <div class="mb-4">
             <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600">

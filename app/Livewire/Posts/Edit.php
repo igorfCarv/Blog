@@ -2,87 +2,80 @@
 
 namespace App\Livewire\Posts;
 
+use App\Models\Post;
+use App\Models\Category;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\Post;
-use Illuminate\Support\Facades\Storage;
 
 class Edit extends Component
 {
     use WithFileUploads;
 
-    public $post; // Instância do modelo Post
+    public $post;
     public $title;
     public $slug;
     public $content;
     public $image;
     public $published_at;
     public $featured = false;
-
-    public $currentImage; // Imagem atual (para exibição durante a edição)
+    public $categories = []; 
 
     protected $rules = [
         'title' => 'required',
-        'slug' => 'required|unique:posts,slug',
+        'slug' => 'required|unique:posts,slug', // Vamos ajustar o slug no método update
         'content' => 'required',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'published_at' => 'required|date',
         'featured' => 'boolean',
+        'categories' => 'required|array',
+        'categories.*' => 'exists:categories,id',
     ];
 
+    // Método para inicializar dados no momento de carregar o post
     public function mount($id)
     {
-        // Busca a postagem e atribui à propriedade $post
+        // Carregar o post que estamos editando
         $this->post = Post::findOrFail($id);
 
-        // Inicializa as propriedades com os dados da postagem
+        // Preencher os campos do post
         $this->title = $this->post->title;
         $this->slug = $this->post->slug;
         $this->content = $this->post->content;
-        $this->currentImage = $this->post->image;
         $this->published_at = $this->post->published_at->format('Y-m-d');
         $this->featured = $this->post->featured;
+        $this->categories = Category::all();
+        
     }
 
+    // Método de atualização
     public function update()
     {
-        // Ajusta as regras para validar o slug, ignorando o atual
+        // Ajuste da regra para o slug para permitir a atualização
         $this->rules['slug'] = 'required|unique:posts,slug,' . $this->post->id;
 
-        // Valida os dados
+        // Validação
         $validatedData = $this->validate();
 
-        // Processa o upload da nova imagem, se houver
         if ($this->image) {
             $validatedData['image'] = $this->image->store('posts', 'public');
         }
 
-        // Atualiza a postagem no banco de dados
+        // Atualizar o post
         $this->post->update(array_merge($validatedData, [
             'user_id' => auth()->id(),
         ]));
 
-        // Notificação e redirecionamento
-        //$this->emit('notify', 'Postagem atualizada com sucesso!');
-        return redirect()->route('dashboard');
-    }
-    public function delete()
-    {
-        // Verifica se há uma imagem associada e remove do armazenamento
-        if ($this->post->image && Storage::disk('public')->exists($this->post->image)) {
-            Storage::disk('public')->delete($this->post->image);
-        }
+        // Atualizar as categorias associadas ao post
+        $this->post->categories()->sync($this->categories);
 
-        // Exclui a postagem do banco de dados
-        $this->post->delete();
+        session()->flash('success', 'Postagem atualizada com sucesso!');
 
-        // Notificação e redirecionamento após exclusão
-        session()->flash('message', 'Postagem excluída com sucesso!');
-        return redirect()->route('dashboard');
+        return redirect()->route('posts.index');
     }
 
     public function render()
     {
-        return view('livewire.posts.edit');
+        $categories = Category::all(); // Obter todas as categorias para exibição no formulário
+        return view('livewire.posts.edit', compact('categories'));
     }
 }

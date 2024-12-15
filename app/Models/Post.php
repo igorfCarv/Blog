@@ -24,6 +24,14 @@ class Post extends Model
     protected $casts = [
       'published_at' => 'datetime',
     ];
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_posts', 'post_id', 'category_id');
+    }
+    public function comments()
+{
+    return $this->hasMany(Comment::class); // Assuming each post can have many comments
+}
     public function author()
     {
         return $this->belongsTo(User::class,'user_id');

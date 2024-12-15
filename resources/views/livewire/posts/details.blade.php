@@ -1,37 +1,87 @@
-<div class="container mx-auto py-6 px-4">
-    <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-        <div class="relative">
-            @if ($post->image)
-                <img src="{{ Storage::url($post->image) }}" alt="Imagem do Post" class="w-full h-64 object-cover">
-            @else
-                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
-                    <span class="text-gray-500">Sem imagem</span>
-                </div>
-            @endif
+<div class="post-details flex lg:flex-row md:flex-col sm:flex-col gap-3">
+    <!-- Imagem do Post -->
+    <div class="post-image">
+        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
+            class="w-full h-2/4 object-cover rounded-xl">
+    </div>
+
+    <!-- Título e Meta do Post -->
+    <div class="w-2/4">
+        <div class="post-meta mt-5">
+            <h1 class="text-3xl font-bold">{{ $post->title }}</h1>
+            <p class="text-sm text-gray-500">Publicado em {{ $post->published_at->format('d/m/Y') }}</p>
+            <p class="text-sm text-gray-500">Autor: {{ $post->author->name }}</p>
         </div>
 
-        <div class="p-6">
-            <h1 class="text-3xl font-semibold text-gray-900">{{ $post->title }}</h1>
-            <p class="text-sm text-gray-500 mb-4">{{ $post->slug }}</p>
-
-            <div class="text-lg text-gray-700">
-                {!! nl2br(e($post->content)) !!}
+        <!-- Conteúdo do Post -->
+        <div class="post-content mt-5 text-lg text-gray-700">
+            {!! nl2br(e($post->content)) !!}
+        </div>
+        @if ($comments->count() > 0)
+            <div class="comments-section mt-10">
+                <h2 class="text-xl font-bold">Comentários</h2>
+                @foreach ($comments as $comment)
+                    <div class="comment mt-3 p-3 bg-gray-100 rounded-md">
+                        <p><strong>{{ $comment->name }}:</strong> {{ $comment->content }}</p>
+                        <p class="text-sm text-gray-500">Publicado em {{ $comment->created_at->format('d/m/Y H:i') }}
+                        </p>
+                        @if ($isAuthor)
+                            <button class="btn btn-primary" wire:click="editComment({{ $comment->post_id }})">Editar Comentário</button>
+                            <button class="btn btn-danger" wire:click="deleteComment({{ $comment->post_id }})">Excluir Comentário</button>
+                        @endif
+                    </div>
+                @endforeach
             </div>
 
-            <div class="mt-6">
-                <span class="inline-block text-sm text-gray-500">Publicado em: {{ $post->published_at->format('d/m/Y') }}</span>
-            </div>
+            {{-- <!-- Paginação de comentários -->
+        {{ $comments->links() }} --}}
+        @else
+            <p class="text-gray-500 mt-4">Ainda não existem comentários.</p>
+        @endif
+        <div class="add-comment mt-8">
+            <h3 class="text-lg font-bold">Adicionar Comentário</h3>
 
-            @if($post->featured)
-                <div class="mt-4">
-                    <span class="inline-block px-4 py-2 text-sm text-white bg-blue-500 rounded-full">Destaque</span>
+            <!-- Formulário para Criar Comentário -->
+            <form wire:submit.prevent="addComment">
+                @auth
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+                        <input type="text" id="name" wire:model="name"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                            placeholder="{{ Auth::user()->name }}" disabled />
+                        @error('name')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                @endauth
+                @guest
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+                        <input type="text" id="name" wire:model="name"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" />
+                        @error('name')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                @endguest
+                <div class="mb-4">
+                    <label for="content" class="block text-sm font-medium text-gray-700">Comentário</label>
+                    <textarea id="content" wire:model="content" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                        rows="4"></textarea>
+                    @error('content')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
-            @endif
 
-            <div class="mt-6 flex space-x-4">
-                <a href="{{ route('dashboard') }}" class="text-blue-500 hover:text-blue-700">Voltar para o Dashboard</a>
-                <button wire:click="delete" class="text-red-500 hover:text-red-700">Excluir</button>
-            </div>
+                <div class="mb-4">
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600">
+                        Adicionar Comentário
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+
+
 </div>

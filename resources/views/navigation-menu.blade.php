@@ -1,4 +1,4 @@
-<nav class="flex items-center justify-between py-3 px-6 border-b border-gray-100">
+<nav class="flex bg-white items-center justify-between py-3 px-6 border-b border-gray-100">
     <div id="header-left" class="flex items-center">
         <div class="text-gray-800 font-semibold">
             <x-application-mark />
@@ -14,6 +14,12 @@
                 @auth
                     <x-nav-link href="{{route('dashboard')}}" :active="request()->routeIs('dashboard')">
                         {{__('Painel')}}
+                    </x-nav-link>
+                    {{-- <x-nav-link href="{{route('posts.show')}}" :active="request()->routeIs('posts.show')">
+                        {{__('Posts')}}
+                    </x-nav-link> --}}
+                    <x-nav-link href="{{route('categories.show')}}" :active="request()->routeIs('categories.show')">
+                        {{__('Categorias')}}
                     </x-nav-link>
                 @endauth
 
