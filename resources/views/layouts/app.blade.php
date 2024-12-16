@@ -20,7 +20,7 @@
     </head>
     <body class="font-light antialiased">
         @include('components.header')
-        <main class="container mx-auto px-5 flex flex-grow">
+        <main class="container justify-center mx-auto px-5 flex flex-grow">
 {{--            @yield('content')--}}
             {{ $slot }}
         </main>

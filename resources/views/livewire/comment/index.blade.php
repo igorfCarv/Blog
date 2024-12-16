@@ -6,7 +6,6 @@
         </div>
     @endif
 
-    <!-- Formulário para adicionar ou editar comentário -->
     <form wire:submit.prevent="{{ $commentId ? 'updateComment' : 'addComment' }}">
         <div class="mb-4">
             <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
@@ -35,11 +34,6 @@
                 <p>{{ $comment->content }}</p>
                 <small class="text-gray-500">{{ $comment->created_at->diffForHumans() }}</small>
 
-                <!-- Botões de editar e excluir -->
-                <div class="mt-2">
-                    <button wire:click="editComment({{ $comment->id }})" class="text-blue-500">Editar</button>
-                    <button wire:click="deleteComment({{ $comment->id }})" class="text-red-500 ml-4">Excluir</button>
-                </div>
             </div>
         @endforeach
 

@@ -1,7 +1,5 @@
-<div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md">
+<div class="w-1/2 my-4 mx-auto p-6 bg-white shadow-md rounded-md">
     <h1 class="text-xl font-bold mb-6">Editar Categoria</h1>
-
-    <!-- Feedback de sucesso -->
     @if (session()->has('success'))
         <div class="mb-4 text-green-700 bg-green-100 p-3 rounded-md">
             {{ session('success') }}

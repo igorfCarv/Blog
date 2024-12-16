@@ -20,8 +20,8 @@
 
         @foreach ($post->categories as $item)
         <span href="{{route('posts.details', $post->id)}}" class="
-                    
-            rounded-xl px-3 py-1 my-1 text-sm mr-3" style="background-color: {{ $item->bg_color }}; color: {{ $item->text_color }} "> 
+
+            rounded-xl px-3 py-1 my-1 text-sm mr-3" style="background-color: {{ $item->bg_color }}; color: {{ $item->text_color }} ">
                 {{ $item->title }}
         </span>
         @endforeach
@@ -35,8 +35,10 @@
                         <p class="text-sm text-gray-500">Publicado em {{ $comment->created_at->format('d/m/Y H:i') }}
                         </p>
                         @if ($isAuthor)
-                            <button class="btn btn-primary" wire:click="editComment({{ $comment->post_id }})">Editar Comentário</button>
-                            <button class="btn btn-danger" wire:click="deleteComment({{ $comment->post_id }})">Excluir Comentário</button>
+                            <div class="mt-2">
+                                <button wire:click="editComment({{ $comment->id }})" class="text-blue-500">Editar</button>
+                                <button wire:click="deleteComment({{ $comment->id }})" class="text-orange-800 ml-4">Excluir</button>
+                            </div>
                         @endif
                     </div>
                 @endforeach

@@ -4,6 +4,7 @@ namespace App\Livewire\Posts;
 
 use App\Models\Post;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -16,66 +17,78 @@ class Edit extends Component
     public $slug;
     public $content;
     public $image;
+    public $imagePreview;
     public $published_at;
-    public $featured = false;
-    public $categories = []; 
+    public $featured = true;
+    public $categories = [];
+    public $allCategories = [];
 
     protected $rules = [
         'title' => 'required',
-        'slug' => 'required|unique:posts,slug', // Vamos ajustar o slug no método update
+        'slug' => 'required',
         'content' => 'required',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'published_at' => 'required|date',
         'featured' => 'boolean',
-        'categories' => 'required|array'
+        'categories' => 'required|array',
     ];
 
-    // Método para inicializar dados no momento de carregar o post
+
     public function mount($id)
     {
-        // Carregar o post que estamos editando
         $this->post = Post::findOrFail($id);
-
-        // Preencher os campos do post
         $this->title = $this->post->title;
         $this->slug = $this->post->slug;
         $this->content = $this->post->content;
+        $this->imagePreview = $this->post->image ? Storage::url($this->post->image) : null;
         $this->published_at = $this->post->published_at->format('Y-m-d');
         $this->featured = $this->post->featured;
-        $this->categories = Category::all();
+        $this->categories = $this->post->categories->pluck('id')->map(fn($id) => (int)$id)->toArray();
+        $this->allCategories = Category::all();
     }
 
-    // Método de atualização
+    public function unsetPhoto()
+    {
+        if ($this->post->image) {
+            Storage::delete($this->post->image);
+            $this->post->image = null;
+            $this->imagePreview = null;
+        }
+    }
+
+
     public function update()
     {
-        // Ajuste da regra para o slug para permitir a atualização
+        $this->validate();
+        if ($this->image) {
+            if ($this->post->image) {
+                Storage::delete($this->post->image);
+            }
+            $this->post->image = $this->image->store('posts', 'public');
+        }
         $this->rules['slug'] = 'required|unique:posts,slug,' . $this->post->id;
 
-        // Validação
-        $validatedData = $this->validate();
-
-        
-
-        if ($this->image) {
-            $validatedData['image'] = $this->image->store('posts', 'public');
-        }
-
-        
-        // Atualizar o post
-        $this->post->update(array_merge($validatedData, [
+        $this->post->update([
             'user_id' => auth()->id(),
-        ]));
+            'featured' => $this->featured,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'content' => $this->content,
+            'published_at' => $this->published_at,
+            'image' => $this->post->image,
+        ]);
+
+        $this->post->categories()->sync($this->categories);
 
         session()->flash('success', 'Postagem atualizada com sucesso!');
 
         return redirect()->route('posts.index');
     }
 
-    
-
     public function render()
     {
-        $categories = Category::all(); // Obter todas as categorias para exibição no formulário
-        return view('livewire.posts.edit', compact('categories'));
+        return view('livewire.posts.edit', [
+            'allCategories' => $this->allCategories, // Todas as categorias disponíveis
+        ]);
     }
 }

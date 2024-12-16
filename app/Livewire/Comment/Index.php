@@ -50,9 +50,9 @@ class Index extends Component
     }
 
     // Método para excluir um comentário
-    public function deleteComment($commentId)
+    public function deleteComment($id)
     {
-        $comment = Comment::findOrFail($commentId);
+        $comment = Comment::find(Request()->$id);
         $comment->delete();
 
         session()->flash('message', 'Comentário excluído com sucesso!');

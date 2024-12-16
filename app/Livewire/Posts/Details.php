@@ -103,26 +103,20 @@ class Details extends Component
     session()->flash('message', 'Comentário atualizado com sucesso!');
 }
 
-public function deleteComment($commentId)
+public function deleteComment($id)
 {
-    $comment = Comment::find($commentId);
-
-    if (!Auth::check() || !$comment || (Auth::user()->id !== $comment->user_id && !Auth::user()->is_admin)) {
-        session()->flash('error', 'Você não tem permissão para excluir este comentário.');
-        return;
+    $comment = Comment::find($id);
+    if (!$comment) {
+        session()->flash('error', 'Comentário não encontrado!');
     }
-
     $comment->delete();
-
-    $this->comments = Comment::where('post_id', $this->post->id)->latest()->get();
-
     session()->flash('message', 'Comentário excluído com sucesso!');
+    return view('livewire.posts.details');
 }
 
     public function render()
     {
         return view('livewire.posts.details', [
-            // Carrega os comentários mais recentes, com paginação
             'comments' => $this->post->comments()->latest()->paginate(5),
         ]);
     }

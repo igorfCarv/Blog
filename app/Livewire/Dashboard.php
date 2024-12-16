@@ -10,9 +10,11 @@ use Livewire\Component;
 #[AllowDynamicProperties] class Dashboard extends Component
 {
     public $posts;
+    public $postsAll;
     public $categories;
     public function mount()
     {
+        $this->postsAll = Post::all();
         $this->posts = Post::where('user_id', auth()->id())->latest()->get();
         $this->categories = Category::all();
     }
