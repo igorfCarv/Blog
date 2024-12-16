@@ -1,5 +1,4 @@
 @props(['post'])
-
 <div class="text-center">
     <a href="{{route('posts.details', $post->id)}}">
         <div>
@@ -11,8 +10,8 @@
             <div class="flex">
                 @foreach ($post->categories as $item)
                 <a href="{{route('posts.details', $post->id)}}" class="
-                    
-                    rounded-xl px-3 py-1 text-sm mr-3" style="background-color: {{ $item->bg_color }}; color: {{ $item->text_color }} "> 
+
+                    rounded-xl px-3 py-1 text-sm mr-3" style="background-color: {{ $item->bg_color }}; color: {{ $item->text_color }} ">
                         {{ $item->title }}
                         </a>
                 @endforeach

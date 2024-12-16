@@ -6,8 +6,6 @@
                 {{ session('success') }}
             </div>
         @endif
-
-        <!-- Título -->
         <div>
             <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
             <input type="text" id="title" wire:model="title"
@@ -16,8 +14,6 @@
                 <span class="text-sm text-red-500">{{ $message }}</span>
             @enderror
         </div>
-
-        <!-- Slug -->
         <div>
             <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
             <input type="text" id="slug" wire:model="slug" readonly
@@ -26,8 +22,6 @@
                 <span class="text-sm text-red-500">{{ $message }}</span>
             @enderror
         </div>
-
-        <!-- Cor do Texto -->
         <div>
             <label for="text_color" class="block text-sm font-medium text-gray-700">Cor do Texto</label>
             <input type="color" id="text_color" wire:model="text_color"
@@ -36,8 +30,6 @@
                 <span class="text-sm text-red-500">{{ $message }}</span>
             @enderror
         </div>
-
-        <!-- Cor de Fundo -->
         <div>
             <label for="bg_color" class="block text-sm font-medium text-gray-700">Cor de Fundo</label>
             <input type="color" id="bg_color" wire:model="bg_color"
@@ -46,8 +38,6 @@
                 <span class="text-sm text-red-500">{{ $message }}</span>
             @enderror
         </div>
-
-        <!-- Botão -->
         <div class="flex justify-end">
             <button type="submit"
                 class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

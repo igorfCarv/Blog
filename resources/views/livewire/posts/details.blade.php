@@ -1,19 +1,14 @@
 <div class="post-details flex lg:flex-row md:flex-col sm:flex-col gap-3">
-    <!-- Imagem do Post -->
     <div class="post-image">
         <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
             class="w-full h-2/4 object-cover rounded-xl">
     </div>
-
-    <!-- Título e Meta do Post -->
     <div class="w-2/4">
         <div class="post-meta mt-5">
             <h1 class="text-3xl font-bold">{{ $post->title }}</h1>
             <p class="text-sm text-gray-500">Publicado em {{ $post->published_at->format('d/m/Y') }}</p>
             <p class="text-sm text-gray-500">Autor: {{ $post->author->name }}</p>
         </div>
-
-        <!-- Conteúdo do Post -->
         <div class="post-content mt-5 text-lg text-gray-700">
             {!! nl2br(e($post->content)) !!}
         </div>
@@ -43,16 +38,11 @@
                     </div>
                 @endforeach
             </div>
-
-            {{-- <!-- Paginação de comentários -->
-        {{ $comments->links() }} --}}
         @else
             <p class="text-gray-500 mt-4">Ainda não existem comentários.</p>
         @endif
         <div class="add-comment mt-8">
             <h3 class="text-lg font-bold">Adicionar Comentário</h3>
-
-            <!-- Formulário para Criar Comentário -->
             <form wire:submit.prevent="addComment">
                 @auth
                     <div class="mb-4">
@@ -93,6 +83,4 @@
             </form>
         </div>
     </div>
-
-
 </div>

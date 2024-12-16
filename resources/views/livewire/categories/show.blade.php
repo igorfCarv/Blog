@@ -57,7 +57,6 @@
     <div class="mt-6">
         {{ $categories->links() }}
     </div>
-
     <div class="mt-6 text-right">
         <a href="{{ route('categories.create') }}"
             class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
