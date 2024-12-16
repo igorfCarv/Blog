@@ -27,8 +27,7 @@ class Edit extends Component
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'published_at' => 'required|date',
         'featured' => 'boolean',
-        'categories' => 'required|array',
-        'categories.*' => 'exists:categories,id',
+        'categories' => 'required|array'
     ];
 
     // Método para inicializar dados no momento de carregar o post
@@ -44,7 +43,6 @@ class Edit extends Component
         $this->published_at = $this->post->published_at->format('Y-m-d');
         $this->featured = $this->post->featured;
         $this->categories = Category::all();
-        
     }
 
     // Método de atualização
@@ -56,22 +54,24 @@ class Edit extends Component
         // Validação
         $validatedData = $this->validate();
 
+        
+
         if ($this->image) {
             $validatedData['image'] = $this->image->store('posts', 'public');
         }
 
+        
         // Atualizar o post
         $this->post->update(array_merge($validatedData, [
             'user_id' => auth()->id(),
         ]));
 
-        // Atualizar as categorias associadas ao post
-        $this->post->categories()->sync($this->categories);
-
         session()->flash('success', 'Postagem atualizada com sucesso!');
 
         return redirect()->route('posts.index');
     }
+
+    
 
     public function render()
     {

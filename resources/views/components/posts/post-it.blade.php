@@ -21,10 +21,14 @@
                         {{$post->title}}
                     </a>
                 </h2>
-
                 <p class="mt-2 text-base text-gray-700 font-light">
                     {{$post->getExcerpt()}}
                 </p>
+                @foreach ($post->categories as $item)
+                <a href="{{route('posts.details', $post->id)}}" class="rounded-xl px-3 py-1 text-sm mr-3" style="background-color: {{ $item->bg_color }}; color: {{ $item->text_color }} "> 
+                        {{ $item->title }}
+                        </a>
+                @endforeach
                 <div class="article-actions-bar mt-6 flex items-center justify-between">
                     <div class="flex items-center space-x-4">
                         <span class="text-gray-500 text-sm">Lido à {{$post->getReadingTime()}} minuto atrás</span>

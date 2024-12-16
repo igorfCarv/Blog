@@ -50,26 +50,22 @@
 
         <!-- Categorias -->
         <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Categorias</label>
-            <div class="mt-2 space-y-2">
-                @foreach($categories as $category)
-                    <div class="flex items-center">
-                        <input 
-                            type="checkbox" 
-                            id="category_{{ $category->id }}" 
-                            value="{{ $category->id }}" 
-                            wire:model="categories" 
-                            class="h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
-                        >
-                        <label for="category_{{ $category->id }}" class="ml-2 text-sm text-gray-700">
-                            {{ $category->title }}
-                        </label>
-                    </div>
-                @endforeach
+            <label class="text-gray-700 mb-2 block font-bold">Tags</label>
+            <div class="flex flex-wrap gap-2">
+              @foreach($categories as $category)
+              <label class="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  wire:model="selectedTags"
+                  value="{{ $category->id }}"
+                  class="form-checkbox text-blue-600 h-5 w-5"
+                />
+                <span class="text-gray-700 ml-2">{{ $category->title }}</span>
+              </label>
+              @endforeach
             </div>
             @error('categories') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        </div>
-        {{$errors}}
+          </div>
 
         <!-- Botão de Submissão -->
         <div class="mb-4">

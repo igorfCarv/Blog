@@ -17,6 +17,15 @@
         <div class="post-content mt-5 text-lg text-gray-700">
             {!! nl2br(e($post->content)) !!}
         </div>
+
+        @foreach ($post->categories as $item)
+        <span href="{{route('posts.details', $post->id)}}" class="
+                    
+            rounded-xl px-3 py-1 my-1 text-sm mr-3" style="background-color: {{ $item->bg_color }}; color: {{ $item->text_color }} "> 
+                {{ $item->title }}
+        </span>
+        @endforeach
+
         @if ($comments->count() > 0)
             <div class="comments-section mt-10">
                 <h2 class="text-xl font-bold">Comentários</h2>

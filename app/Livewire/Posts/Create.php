@@ -17,7 +17,8 @@ class Create extends Component
     public $image;
     public $published_at;
     public $featured = false;
-    public $categories = []; // IDs das categorias selecionadas
+    public $categories = []; // Todas as categorias disponíveis
+    public $selectedTags = []; // IDs das categorias selecionadas
 
     protected $rules = [
         'title' => 'required',
@@ -26,14 +27,13 @@ class Create extends Component
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'published_at' => 'required|date',
         'featured' => 'boolean',
-        'categories' => 'required|array' // Certifica que é um array
-        
+        'selectedTags' => 'required|array|min:1', // Deve ser um array com pelo menos 1 item
+        'selectedTags.*' => 'exists:categories,id', // Cada item deve ser um ID válido
     ];
 
-    // Método mount() para carregar categorias ao inicializar o componente
     public function mount()
     {
-        // Carrega todas as categorias ao inicializar o componente
+        // Carregar todas as categorias disponíveis
         $this->categories = Category::all();
     }
 
@@ -46,29 +46,27 @@ class Create extends Component
         if ($this->image) {
             $validatedData['image'] = $this->image->store('posts', 'public');
         }
-    
+
         // Criar o post
         $post = Post::create(array_merge($validatedData, [
             'user_id' => auth()->id(),
         ]));
+        
 
         // Associar as categorias ao post, passando apenas os IDs selecionados
-        $post->categories()->sync($this->categories);
+        $post->categories()->sync($this->selectedTags);
 
         // Feedback para o usuário
         session()->flash('success', 'Postagem criada com sucesso!');
-    
-        // Redirecionar ou limpar formulário
+
+        // Redirecionar
         return redirect()->route('dashboard');
     }
 
-    // Renderiza a view com as categorias disponíveis
     public function render()
     {
-        // Carrega as categorias
-        $categories = Category::all();
-        
-        // Passa para a view as categorias carregadas
-        return view('livewire.posts.create', compact('categories'));
+        return view('livewire.posts.create', [
+            'categories' => $this->categories,
+        ]);
     }
 }
